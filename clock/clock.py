@@ -17,7 +17,7 @@ numbers = {
   "2": [[1,1,1],[1,0,0],[0,1,0],[0,0,1],[1,0,1],[1,0,1],[0,1,0]],
   "3": [[0,1,0],[1,0,1],[0,0,1],[0,1,0],[0,0,1],[1,0,1],[0,1,0]],
   "4": [[0,0,1],[0,0,1],[0,0,1],[1,1,1],[1,0,1],[0,1,1],[0,0,1]],
-  "5": [[0,1,0],[1,0,1],[0,0,1],[0,0,1],[1,1,0],[1,0,1],[1,1,1]],
+  "5": [[0,1,0],[1,0,1],[0,0,1],[0,0,1],[1,1,0],[1,0,0],[1,1,1]],
   "6": [[0,1,0],[1,0,1],[1,0,1],[1,1,0],[1,0,0],[1,0,1],[0,1,0]],
   "7": [[0,1,0],[0,1,0],[0,1,0],[0,1,0],[0,0,1],[0,0,1],[1,1,1]],
   "8": [[0,1,0],[1,0,1],[1,0,1],[0,1,0],[1,0,1],[1,0,1],[0,1,0]],
@@ -42,7 +42,7 @@ def start_test():
     time.sleep(0.1)
     unicornhathd.off()
 
-def update_second_dot(t):
+def second_to_pixel(t, r, g, b):
   x = 0;
   y = 0;
   if t < 8: # 0-7
@@ -61,16 +61,14 @@ def update_second_dot(t):
     x = t - 52 
     y = 15
 
-  unicornhathd.set_pixel(x, y, 0, 80, 22)
+  unicornhathd.set_pixel(x, y, r, g, b)
  
 
 try:
-#  start_test()
   last_time = "" 
   while True:
     now = datetime.now()
     if last_time != now.strftime('%H:%M'):
-      # TODO Call time.strftime only once
       last_time = now.strftime('%H:%M')
       hour = now.strftime('%H')
       minute = now.strftime('%M')
@@ -79,10 +77,11 @@ try:
       set_digit(4, 5, numbers[hour[1]])
       set_digit(9, 5, numbers[minute[0]])
       set_digit(12, 5, numbers[minute[1]])
-#    print("hour: " + time.strftime('%H'))
-#    print("min: " + time.strftime('%M'))
     
-    update_second_dot(now.second)
+    second_to_pixel(now.second, 0, 40, 11)
+    second_to_pixel(now.minute, rgb[0], rgb[1], rgb[2])
+    second_to_pixel(int(now.strftime('%I'))*5, rgb[0]*1.5, rgb[1]*1.5, rgb[2]*1.5)
+    
     unicornhathd.show()
     time.sleep(0.1)
   
