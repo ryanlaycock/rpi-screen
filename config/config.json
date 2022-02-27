@@ -1,0 +1,8 @@
+{
+  "brightness": 0.7,
+  "rotation": 180,
+  "red": 0,
+  "green": 160,
+  "blue": 50,
+  "open_hardware_monitor_addr": "http://195.168.0.50:8085/data.json"
+}
