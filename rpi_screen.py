@@ -5,6 +5,7 @@ from datetime import datetime
 import logging
 import time
 import json
+from clock.clock import *
 
 
 class RPIScreen():
@@ -57,7 +58,7 @@ class Frame():
 
   
   def add_pixel(self, x, y, rgb):
-    self.frame[y][x] = rgb 
+    self.frame[x][y] = rgb 
 
 
   def to_2d_array(self):
@@ -67,8 +68,12 @@ logging.basicConfig(level=logging.DEBUG)
 rps = RPIScreen('config/config.json')
 try:
   while True:
+    now = datetime.now()
+
     frame = Frame()
-    frame.add_pixel(0, 0, rps.get_rgb())
+    
+    frame = add_clock_to_frame(now, rps.get_rgb(), frame)    
+
     rps.update_frame(frame.to_2d_array())
 
 except KeyboardInterrupt:
