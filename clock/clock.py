@@ -35,13 +35,6 @@ def set_digit(start_x, start_y, digit):
       x += 1
     y += 1
 
-def start_test():
-  for digit in numbers.values():
-    set_digit(0, 8, digit)
-    unicornhathd.show()
-    time.sleep(0.1)
-    unicornhathd.off()
-
 def second_to_pixel(t, r, g, b):
   x = 0;
   y = 0;
@@ -65,22 +58,22 @@ def second_to_pixel(t, r, g, b):
  
 
 try:
-  last_time = "" 
   while True:
     now = datetime.now()
-    if last_time != now.strftime('%H:%M'):
-      last_time = now.strftime('%H:%M')
-      hour = now.strftime('%H')
-      minute = now.strftime('%M')
-      unicornhathd.off()
-      set_digit(1, 5, numbers[hour[0]])
-      set_digit(4, 5, numbers[hour[1]])
-      set_digit(9, 5, numbers[minute[0]])
-      set_digit(12, 5, numbers[minute[1]])
+    unicornhathd.clear()
+
+    # Time has changed so draw the new digits
+    last_time = now.strftime('%H:%M')
+    hour = now.strftime('%H')
+    minute = now.strftime('%M')
+    set_digit(1, 5, numbers[hour[0]])
+    set_digit(4, 5, numbers[hour[1]])
+    set_digit(9, 5, numbers[minute[0]])
+    set_digit(12, 5, numbers[minute[1]])
     
-    second_to_pixel(now.second, 0, 40, 11)
-    second_to_pixel(now.minute, rgb[0], rgb[1], rgb[2])
-    second_to_pixel(int(now.strftime('%I'))*5, rgb[0]*1.5, rgb[1]*1.5, rgb[2]*1.5)
+    for i in range(0, now.second): 
+      # add a dot for each second so far
+      second_to_pixel(i, 0, 40, 11)
     
     unicornhathd.show()
     time.sleep(0.1)
