@@ -6,6 +6,7 @@ import logging
 import time
 import json
 from clock.clock import *
+from hwmonitor.openhwmonitor import *
 
 
 class RPIScreen():
@@ -24,7 +25,7 @@ class RPIScreen():
       self.red = config['red']
       self.green = config['green']
       self.blue = config['blue']
-      self.open_hardware_monitor_addr = config['open_hardware_monitor_addr']
+      self.open_hardware_monitor_config = config['open_hardware_monitor_config']
     except:
       logging.error('Missing config vars')
       exit(1)
@@ -35,6 +36,9 @@ class RPIScreen():
 
   def get_rgb(self):
     return (self.red, self.green, self.blue)
+
+  def get_open_hw_monitor_config(self):
+    return (self.open_hardware_monitor_config)
 
 
   def update_frame(self, frame):
@@ -66,13 +70,22 @@ class Frame():
 
 logging.basicConfig(level=logging.DEBUG)
 rps = RPIScreen('config/config.json')
+
 try:
   while True:
     now = datetime.now()
-
     frame = Frame()
-    
-    frame = add_clock_to_frame(now, rps.get_rgb(), frame)    
+
+    try:
+      result = add_open_hw_monitor_to_frame(0, rps.get_open_hw_monitor_config(), now, rps.get_rgb(), frame)
+    except:
+      result = (False, frame)
+
+    frame_added = result[0]
+    frame = result[1]
+
+    if not frame_added:
+      frame = add_clock_to_frame(now, rps.get_rgb(), frame)
 
     rps.update_frame(frame.to_2d_array())
 
