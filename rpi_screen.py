@@ -69,25 +69,26 @@ class Frame():
     return self.frame
 
 logging.basicConfig(level=logging.DEBUG)
-rps = RPIScreen('config/config.json')
+rps = RPIScreen('/home/pi/github.com/ryanlaycock/rpi-screen/config/config.json') # TODO improve
 
 try:
   while True:
     now = datetime.now()
     frame = Frame()
+    result = (False, frame)
 
     try:
-      result = add_open_hw_monitor_to_frame(0, rps.get_open_hw_monitor_config(), now, rps.get_rgb(), frame)
+      result = add_open_hw_monitor_to_frame(rps.get_open_hw_monitor_config(), now, rps.get_rgb(), frame)
     except:
-      result = (False, frame)
+      logging.info("Could not get open HW frame")
 
-    frame_added = result[0]
-    frame = result[1]
-
-    if not frame_added:
+    if result[0]: # Open HW Monitor frame successfully added
+      rps.update_frame(result[1].to_2d_array())
+      time.sleep(1) # Sleep longer here not to spam open hardware/PC    
+    else: # Default to clock
       frame = add_clock_to_frame(now, rps.get_rgb(), frame)
-
-    rps.update_frame(frame.to_2d_array())
+      rps.update_frame(frame.to_2d_array())
+      time.sleep(0.1)
 
 except KeyboardInterrupt:
   rps.off()
