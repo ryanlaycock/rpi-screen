@@ -1,0 +1,19 @@
+{
+  "brightness": 0.7,
+  "rotation": 180,
+  "red": 0,
+  "green": 160,
+  "blue": 50,
+  "open_hardware_monitor_config": {
+    "addr": "http://192.168.0.50:8085/data.json",
+    "min_temp": 40,
+    "cpu": {
+      "temp_id": ["Sensor","DESKTOP-CHV19EG","AMD Ryzen 7 5800X","Temperatures","CPU Package"],
+      "load_id": ["Sensor","DESKTOP-CHV19EG","AMD Ryzen 7 5800X","Load","CPU Total"]
+    },
+    "gpu": {
+      "temp_id": ["Sensor","DESKTOP-CHV19EG","NVIDIA NVIDIA GeForce RTX 2070","Temperatures","GPU Core"],
+      "load_id": ["Sensor","DESKTOP-CHV19EG","NVIDIA NVIDIA GeForce RTX 2070","Load","GPU Core"]
+    }
+  }
+}

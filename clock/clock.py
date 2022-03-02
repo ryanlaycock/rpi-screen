@@ -3,39 +3,9 @@
 import unicornhathd
 from datetime import datetime
 import time
+from common.digits import *
 
-print("Running clock on rpi-screen")
-
-unicornhathd.rotation(180)
-unicornhathd.brightness(0.7)
-
-rgb = [4, 161, 48] # Colour of PC components
-
-
-numbers = {
-  "1": [[1,1,1],[0,1,0],[0,1,0],[0,1,0],[0,1,0],[1,1,0],[0,1,0]],
-  "2": [[1,1,1],[1,0,0],[0,1,0],[0,0,1],[1,0,1],[1,0,1],[0,1,0]],
-  "3": [[0,1,0],[1,0,1],[0,0,1],[0,1,0],[0,0,1],[1,0,1],[0,1,0]],
-  "4": [[0,0,1],[0,0,1],[0,0,1],[1,1,1],[1,0,1],[0,1,1],[0,0,1]],
-  "5": [[0,1,0],[1,0,1],[0,0,1],[0,0,1],[1,1,0],[1,0,0],[1,1,1]],
-  "6": [[0,1,0],[1,0,1],[1,0,1],[1,1,0],[1,0,0],[1,0,1],[0,1,0]],
-  "7": [[0,1,0],[0,1,0],[0,1,0],[0,1,0],[0,0,1],[0,0,1],[1,1,1]],
-  "8": [[0,1,0],[1,0,1],[1,0,1],[0,1,0],[1,0,1],[1,0,1],[0,1,0]],
-  "9": [[0,0,1],[0,0,1],[0,0,1],[0,1,1],[1,0,1],[1,0,1],[0,1,0]],
-  "0": [[0,1,0],[1,0,1],[1,0,1],[1,0,1],[1,0,1],[1,0,1],[0,1,0]]
-}
-
-def set_digit(start_x, start_y, digit):
-  y = start_y
-  for row in digit:
-    x = start_x
-    for column in row:
-      if column: 
-        unicornhathd.set_pixel(x, y, rgb[0], rgb[1], rgb[2])
-      x += 1
-    y += 1
-
-def second_to_pixel(t, r, g, b):
+def add_second_to_frame(t, rgb, frame):
   x = 0;
   y = 0;
   if t < 8: # 0-7
@@ -54,30 +24,18 @@ def second_to_pixel(t, r, g, b):
     x = t - 52 
     y = 15
 
-  unicornhathd.set_pixel(x, y, r, g, b)
- 
+  frame.add_pixel(x, y, rgb) 
 
-try:
-  while True:
-    now = datetime.now()
-    unicornhathd.clear()
+def add_clock_to_frame(now, rgb, frame):
+  hour = now.strftime('%H')
+  minute = now.strftime('%M')
+  add_digit_to_frame(1, 5, numbers[hour[0]], rgb, frame)
+  add_digit_to_frame(4, 5, numbers[hour[1]], rgb, frame)
+  add_digit_to_frame(9, 5, numbers[minute[0]], rgb, frame)
+  add_digit_to_frame(12, 5, numbers[minute[1]], rgb, frame)
 
-    # Time has changed so draw the new digits
-    last_time = now.strftime('%H:%M')
-    hour = now.strftime('%H')
-    minute = now.strftime('%M')
-    set_digit(1, 5, numbers[hour[0]])
-    set_digit(4, 5, numbers[hour[1]])
-    set_digit(9, 5, numbers[minute[0]])
-    set_digit(12, 5, numbers[minute[1]])
+  for i in range(0, now.second): 
+    # add a dot for each second so far
+    add_second_to_frame(i, rgb, frame)
     
-    for i in range(0, now.second): 
-      # add a dot for each second so far
-      second_to_pixel(i, 0, 40, 11)
-    
-    unicornhathd.show()
-    time.sleep(0.1)
-  
-except KeyboardInterrupt:
-  unicornhathd.off()
-
+  return frame
