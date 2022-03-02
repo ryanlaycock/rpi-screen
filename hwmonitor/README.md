@@ -4,6 +4,8 @@ The aim of this project was to use the 16x16 matrix to show CPU & GPU load % and
 
 The [config file](../config/config.json) contains the routes to each node in the returned data, the IP:port address of the PC to query and a "min temp" value, that tells the display when to show the readouts.
 
+![Example of CPU temperature](/images/pc.jpg)
+
 ## Configuration
 
 ### Open Hardware Monitor
