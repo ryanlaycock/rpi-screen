@@ -4,7 +4,7 @@
 
 Raspberry Pi setup and project code for my 16x16 Pimoroni Unicorn HD LED RGB Matrix - acting as a PC monitor/display.
 
-![Display in PC](/images/pc_big.jpg)
+![Display in PC](https://github.com/ryanlaycock/rpi-screen/raw/main/images/pc_big.jpg)
 
 ### Hardware
 
