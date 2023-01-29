@@ -19,16 +19,16 @@ like `rpiscreen.local` (or whatever the Pi's hostname is).
 
 ## Setup
 
-- [Setting up the RPi as a network gadget](setup/rpisetup.md)
+- [Setting up the RPi as a network gadget](setup)
 
 ## Projects
 In this repo you can find multiple projects that can be configured to run on the display. The main program can be configured to show differnet 'projects' depending on conditions, such as clock when the attached PC is not under load, and CPU & GPU metrics when it is.
 
 ### Clock
-The [Clock Project](/clock/) adds a clock frame, with the 24 hour time displayed in the centre, with seconds going around the edge of the display - making for a nice digital clock effect.
+The [Clock Project](clock/) adds a clock frame, with the 24 hour time displayed in the centre, with seconds going around the edge of the display - making for a nice digital clock effect.
 
 ### Open Hardware Monitor
-The [Open Hardware Monitor Project](/hwmonitor/) adds a CPU and GPU load and temperature readout, from a PC running [Open Hardware Monitor](https://openhardwaremonitor.org/). See the detailed [docs](/hwmonitor/README.md) for more information on how to configure this in this application, but also on the PC to get measurements from.
+The [Open Hardware Monitor Project](hwmonitor/) adds a CPU and GPU load and temperature readout, from a PC running [Open Hardware Monitor](https://openhardwaremonitor.org/). See the detailed [docs](hwmonitor/README.md) for more information on how to configure this in this application, but also on the PC to get measurements from.
 
 ## TODO
 
