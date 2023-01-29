@@ -19,7 +19,7 @@ like `rpiscreen.local` (or whatever the Pi's hostname is).
 
 ## Setup
 
-- [Setting up the RPi as a network gadget](/setup/rpisetup.md)
+- [Setting up the RPi as a network gadget](setup/rpisetup.md)
 
 ## Projects
 In this repo you can find multiple projects that can be configured to run on the display. The main program can be configured to show differnet 'projects' depending on conditions, such as clock when the attached PC is not under load, and CPU & GPU metrics when it is.
